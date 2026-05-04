@@ -1,0 +1,23 @@
+# Rust build artifacts
+/target
+
+# App bundle (se genera con make-app.sh)
+/macuse.app
+
+# Plan interno - no publico
+/implementation-plan.md
+
+# Logs temporales
+/tmp/macuse.log
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
