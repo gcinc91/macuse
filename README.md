@@ -118,8 +118,10 @@ Lo más habitual: tienes una entrada antigua de `macuse` en la lista de Accesibi
 Mira el log de diagnóstico:
 
 ```bash
-tail -30 /tmp/macuse.log
+tail -30 ~/Library/Logs/macuse/macuse.log
 ```
+
+> Si quieres trazas detalladas de cada evento de scroll (útil para diagnosticar), arranca la app con `MACUSE_DEBUG=1 open macuse.app` o exporta la variable antes de lanzar.
 
 Si ves `AX trusted (initial) = false`, sigues sin tener permiso (re-haz el paso 5).
 Si ves `event tap habilitado en run loop` pero no aparece `evt#0` cuando haces scroll, hay otro tap antes que el nuestro. Cierra otras apps de scroll (Mos, Scroll Reverser, LinearMouse) y reabre macuse.
@@ -143,6 +145,9 @@ rm -f ~/Library/LaunchAgents/com.macuse.app.plist
 
 # Borra la configuración guardada
 rm -rf ~/Library/Application\ Support/macuse
+
+# Borra los logs
+rm -rf ~/Library/Logs/macuse
 
 # Borra la app
 rm -rf ~/Documents/code/macuse  # o donde la hayas descargado
@@ -169,7 +174,7 @@ Así, sin tocar el ajuste global del Sistema, conseguimos comportamiento opuesto
 src/
 ├── main.rs              # bootstrap: carga config, comprueba permisos, arranca tap, abre ventana
 ├── ui.rs                # ventana Cocoa nativa con NSWindow + NSSwitch
-├── log.rs               # logging a /tmp/macuse.log
+├── log.rs               # logging a ~/Library/Logs/macuse/macuse.log
 ├── config.rs            # serde JSON en ~/Library/Application Support/macuse/
 ├── permissions.rs       # AXIsProcessTrustedWithOptions
 ├── login_item.rs        # LaunchAgent plist en ~/Library/LaunchAgents/

@@ -1,5 +1,10 @@
 //! macuse - natural scrolling independiente para trackpad y raton.
 
+// El crate `objc 0.2` expande sus macros con `cfg(feature = "cargo-clippy")`,
+// un cfg legado que rustc moderno marca como "unexpected". No es codigo nuestro
+// y no podemos arreglarlo sin migrar a objc2.
+#![allow(unexpected_cfgs)]
+
 mod config;
 mod log;
 mod login_item;
@@ -51,7 +56,7 @@ fn main() {
 
     unsafe {
         let app = NSApp();
-        let _delegate = ui::build(state, started_tap);
+        let _delegate = ui::build(state, started_tap, cfg);
         mlog!("UI lista, entrando en run loop");
         app.run();
     }

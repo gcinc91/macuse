@@ -14,10 +14,26 @@ fn plist_path() -> Result<PathBuf> {
 
 fn binary_path() -> Result<PathBuf> {
     let exe = env::current_exe().context("current_exe")?;
-    Ok(exe.canonicalize().unwrap_or(exe))
+    exe.canonicalize().context("canonicalize current_exe")
+}
+
+fn xml_escape(s: &str) -> String {
+    let mut out = String::with_capacity(s.len());
+    for c in s.chars() {
+        match c {
+            '&' => out.push_str("&amp;"),
+            '<' => out.push_str("&lt;"),
+            '>' => out.push_str("&gt;"),
+            '"' => out.push_str("&quot;"),
+            '\'' => out.push_str("&apos;"),
+            _ => out.push(c),
+        }
+    }
+    out
 }
 
 fn plist_contents(bin: &str) -> String {
+    let bin = xml_escape(bin);
     format!(
         r#"<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -39,10 +55,6 @@ fn plist_contents(bin: &str) -> String {
 </plist>
 "#
     )
-}
-
-pub fn is_installed() -> bool {
-    plist_path().map(|p| p.exists()).unwrap_or(false)
 }
 
 pub fn install() -> Result<()> {
