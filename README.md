@@ -6,8 +6,6 @@ macOS solo te deja activar o desactivar "natural scrolling" para todos los perif
 
 `macuse` resuelve eso. Es una mini-app con dos toggles: uno para el trackpad y otro para el ratón. Cada uno controla el natural scrolling de ese periférico de forma totalmente independiente.
 
-![cap](docs/screenshot.png)
-
 ## Lo que hace por dentro (en una frase)
 
 Intercepta los eventos de scroll en el sistema y, según de qué periférico vengan, los invierte o no antes de pasarlos a las apps. **No toca el ajuste global de macOS**.
